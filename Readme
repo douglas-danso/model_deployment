@@ -1,61 +1,84 @@
-Overview
-This project demonstrates the deployment of a Hugging Face model (distilgpt2) to AWS SageMaker and provides scripts for invoking the deployed endpoint, setting up AWS resources, and cleaning up the deployment.
+**Deploy Hugging Face Model to AWS SageMaker**
 
-Project Structure
-.env
-app/
-    __init__.py
-    config.py
-    test_script.py
-deploy/
-    __init__.py
-    aws_setup.py
-    clean_up.py
-    sagemaker_deploy.py
-model/
-    code/
-        inference.py
-        requirements.txt
-requirements.txt
+**Overview**
+This project demonstrates how to deploy a Hugging Face model (*distilgpt2*) to AWS SageMaker. It includes scripts for:
+- Deploying the model to SageMaker
+- Invoking the deployed endpoint with a prompt
+- Setting up AWS resources
+- Cleaning up the deployment
 
-Setup
-1. Install dependencies:
-    pip install -r requirements.txt
-2. Environment Variables: Create a .env file in the root directory with the following content:
-    AWS_ACCESS_KEY_ID=<your-aws-access-key-id>
-    AWS_SECRET_ACCESS_KEY=<your-aws-secret-access-key>
-    REGION=us-west-2
-    SAGEMAKER_ENDPOINT_NAME=distilgpt2
-    MODEL_ID=distilbert/distilgpt2
+**Project Structure**
+```
+.
+├── .env
+├── app
+│   ├── __init__.py
+│   ├── config.py         # Contains configuration settings including AWS credentials and endpoint details
+│   └── test_script.py    # Invokes the SageMaker endpoint and prints the generated text
+├── deploy
+│   ├── __init__.py
+│   ├── aws_setup.py      # Sets up necessary AWS resources
+│   ├── clean_up.py       # Deletes the SageMaker endpoint
+│   └── sagemaker_deploy.py  # Deploys the Hugging Face model to SageMaker
+├── model
+│   └── code
+│       ├── inference.py  # Contains inference logic: loading the model, making predictions, handling I/O
+│       └── requirements.txt
+└── requirements.txt      # Contains all project dependencies
+```
 
+**Prerequisites**
+- Python 3.8 or above
+- An AWS account with the necessary permissions
 
-Scripts
-1. app/config.py
-This file contains the configuration settings for the project, including AWS credentials and SageMaker endpoint details.
+**Setup**
 
-2. app/test_script.py
-This script invokes the SageMaker endpoint with a given prompt and prints the generated text.
+1. **Create and Activate a Virtual Environment**
+   It is recommended to use a virtual environment to manage dependencies.
 
-Usage:
-python app/test_script.py
+   Using Python's built-in `venv`:
+   ```sh
+   python3 -m venv venv
+   source venv/bin/activate   # On Windows: venv\Scripts\activate
+   ```
 
-4. clean_up.py
-This script deletes the SageMaker endpoint.
+   Alternatively, using `virtualenv`:
+   ```sh
+   pip install virtualenv
+   virtualenv venv
+   source venv/bin/activate   # On Windows: venv\Scripts\activate
+   ```
 
-Usage:
-python deploy/clean_up.py
+2. **Install Dependencies**
+   With your virtual environment activated, install the project dependencies:
+   ```sh
+   pip install -r requirements.txt
+   ```
 
-5. sagemaker_deploy.py
-This script deploys the Hugging Face model to SageMaker.
+3. **Configure Environment Variables**
+   Create a `.env` file in the root directory with the following content:
+   ```
+   AWS_ACCESS_KEY_ID=<your-aws-access-key-id>
+   AWS_SECRET_ACCESS_KEY=<your-aws-secret-access-key>
+   REGION=us-west-2
+   SAGEMAKER_ENDPOINT_NAME=distilgpt2
+   MODEL_ID=distilbert/distilgpt2
+   ```
 
-Usage:
+**Usage**
+
+**Deploying the Model**
+Deploy the Hugging Face model to AWS SageMaker by running:
+```sh
 python deploy/sagemaker_deploy.py
+```
 
-6. inference.py
-This script contains the inference logic for the deployed model, including functions for loading the model, making predictions, and handling input/output.
+**Cleaning Up Resources**
+After you are done, clean up by deleting the SageMaker endpoint:
+```sh
+python deploy/clean_up.py
+```
 
-Requirements
-The requirements.txt file contains all the dependencies required for the project.
-
-
-
+**Additional Information**
+- **Configuration:** You can adjust AWS credentials and endpoint settings in `app/config.py`.
+- **Model Inference:** The `inference.py` file (located in `model/code/`) handles model loading, prediction, and input/output processes.
