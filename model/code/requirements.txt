@@ -1,0 +1,9 @@
+sagemaker-inference==1.8.0
+fastapi==0.115.8
+numpy==1.21.0
+requests==2.31.0
+bitsandbytes==0.41.1
+accelerate==0.24.1
+transformers>=4.26.0
+torch==2.0.1
+python-dotenv==1.0.1
